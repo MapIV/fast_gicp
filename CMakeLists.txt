@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.10.0)
 project(fast_gicp)
 
-option(BUILD_VGICP_CUDA "Build GPU-powered VGICP" OFF)
 option(BUILD_apps "Build application programs" ON)
 option(BUILD_test "Build test programs" OFF)
 option(BUILD_PYTHON_BINDINGS "Build python bindings" OFF)
@@ -38,8 +37,8 @@ if (OPENMP_FOUND)
   set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
 endif()
 
-if(BUILD_VGICP_CUDA)
-  find_package(CUDA REQUIRED)
+find_package(CUDA)
+if (CUDA_FOUND)
   include_directories(${CUDA_INCLUDE_DIRS})
   link_directories(${CUDA_LIBRARY_DIRS})
 endif()
@@ -107,7 +106,7 @@ if(BUILD_PYTHON_BINDINGS)
 endif()
 
 ### CUDA ###
-if(BUILD_VGICP_CUDA)
+if(CUDA_FOUND)
   set(CUDA_NVCC_FLAGS "--expt-relaxed-constexpr")
   add_definitions(-DUSE_VGICP_CUDA)
 
