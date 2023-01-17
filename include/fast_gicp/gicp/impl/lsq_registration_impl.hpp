@@ -67,7 +67,7 @@ void LsqRegistration<PointTarget, PointSource>::computeTransformation(PointCloud
 
     Eigen::Isometry3d delta;
     if (!step_optimize(x0, delta)) {
-      std::cerr << "lm not converged!!" << std::endl;
+      // std::cerr << "lm not converged!!" << std::endl;
       break;
     }
 
