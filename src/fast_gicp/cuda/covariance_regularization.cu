@@ -5,6 +5,7 @@
 
 #include <thrust/copy.h>
 #include <thrust/iterator/transform_output_iterator.h>
+#include <thrust/sequence.h>
 
 namespace fast_gicp {
 namespace cuda {
