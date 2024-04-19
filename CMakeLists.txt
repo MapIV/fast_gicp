@@ -37,11 +37,11 @@ if (OPENMP_FOUND)
   set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
 endif()
 
-find_package(CUDA)
-if (CUDA_FOUND)
-  include_directories(${CUDA_INCLUDE_DIRS})
-  link_directories(${CUDA_LIBRARY_DIRS})
-endif()
+# find_package(CUDA)
+# if (CUDA_FOUND)
+#   include_directories(${CUDA_INCLUDE_DIRS})
+#   link_directories(${CUDA_LIBRARY_DIRS})
+# endif()
 
 ###################################
 ## catkin specific configuration ##
@@ -106,48 +106,48 @@ if(BUILD_PYTHON_BINDINGS)
 endif()
 
 ### CUDA ###
-if(CUDA_FOUND)
-  set(CUDA_NVCC_FLAGS "--expt-relaxed-constexpr")
-  add_definitions(-DUSE_VGICP_CUDA)
-
-  cuda_add_library(fast_vgicp_cuda SHARED
-    src/fast_gicp/cuda/fast_vgicp_cuda.cu
-    src/fast_gicp/cuda/brute_force_knn.cu
-    src/fast_gicp/cuda/covariance_estimation.cu
-    src/fast_gicp/cuda/covariance_estimation_rbf.cu
-    src/fast_gicp/cuda/covariance_regularization.cu
-    src/fast_gicp/cuda/gaussian_voxelmap.cu
-    src/fast_gicp/cuda/find_voxel_correspondences.cu
-    src/fast_gicp/cuda/compute_derivatives.cu
-    src/fast_gicp/cuda/compute_mahalanobis.cu
-    src/fast_gicp/cuda/ndt_cuda.cu
-    src/fast_gicp/cuda/ndt_compute_derivatives.cu
-  )
-  target_include_directories(fast_vgicp_cuda PRIVATE
-    include
-    thirdparty/Eigen
-    thirdparty/nvbio
-    ${catkin_INCLUDE_DIRS}
-  )
-  target_link_libraries(fast_vgicp_cuda
-    ${catkin_LIBRARIES}
-  )
-  cuda_add_cublas_to_target(fast_vgicp_cuda)
-
-  # add vgicp_cuda to libfast_gicp
-  target_sources(fast_gicp PRIVATE
-    src/fast_gicp/gicp/fast_vgicp_cuda.cpp
-    src/fast_gicp/ndt/ndt_cuda.cpp
-  )
-  target_link_libraries(fast_gicp
-    fast_vgicp_cuda
-  )
-  add_dependencies(fast_gicp fast_vgicp_cuda)
-  if(catkin_FOUND)
-    install(TARGETS fast_vgicp_cuda  
-      LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION})
-  endif()
-endif()
+# if(CUDA_FOUND)
+#   set(CUDA_NVCC_FLAGS "--expt-relaxed-constexpr")
+#   add_definitions(-DUSE_VGICP_CUDA)
+# 
+#   cuda_add_library(fast_vgicp_cuda SHARED
+#     src/fast_gicp/cuda/fast_vgicp_cuda.cu
+#     src/fast_gicp/cuda/brute_force_knn.cu
+#     src/fast_gicp/cuda/covariance_estimation.cu
+#     src/fast_gicp/cuda/covariance_estimation_rbf.cu
+#     src/fast_gicp/cuda/covariance_regularization.cu
+#     src/fast_gicp/cuda/gaussian_voxelmap.cu
+#     src/fast_gicp/cuda/find_voxel_correspondences.cu
+#     src/fast_gicp/cuda/compute_derivatives.cu
+#     src/fast_gicp/cuda/compute_mahalanobis.cu
+#     src/fast_gicp/cuda/ndt_cuda.cu
+#     src/fast_gicp/cuda/ndt_compute_derivatives.cu
+#   )
+#   target_include_directories(fast_vgicp_cuda PRIVATE
+#     include
+#     thirdparty/Eigen
+#     thirdparty/nvbio
+#     ${catkin_INCLUDE_DIRS}
+#   )
+#   target_link_libraries(fast_vgicp_cuda
+#     ${catkin_LIBRARIES}
+#   )
+#   cuda_add_cublas_to_target(fast_vgicp_cuda)
+# 
+#   # add vgicp_cuda to libfast_gicp
+#   target_sources(fast_gicp PRIVATE
+#     src/fast_gicp/gicp/fast_vgicp_cuda.cpp
+#     src/fast_gicp/ndt/ndt_cuda.cpp
+#   )
+#   target_link_libraries(fast_gicp
+#     fast_vgicp_cuda
+#   )
+#   add_dependencies(fast_gicp fast_vgicp_cuda)
+#   if(catkin_FOUND)
+#     install(TARGETS fast_vgicp_cuda  
+#       LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION})
+#   endif()
+# endif()
 
 ### TEST ###
 if(BUILD_test)
